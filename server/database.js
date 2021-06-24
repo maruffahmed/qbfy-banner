@@ -2,10 +2,10 @@ import { Session } from "@shopify/shopify-api/dist/auth/session";
 import mysql from 'mysql';
 
 const connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'root',
-    password : '',
-    database : 'qbyt_banner'
+    host     : process.env.MYSQL_DATABASE_HOST,
+    user     : process.env.MYSQL_DATABASE_USER,
+    password : process.env.MYSQL_DATABASE_PASSWORD,
+    database : process.env.MYSQL_DATABASE_TABLE
 })
 connection.connect(() => {
     console.log("Connected");
