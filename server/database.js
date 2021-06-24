@@ -1,14 +1,23 @@
 import { Session } from "@shopify/shopify-api/dist/auth/session";
 import mysql from 'mysql';
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const connection = mysql.createConnection({
-    host     : process.env.MYSQL_DATABASE_HOST,
-    user     : process.env.MYSQL_DATABASE_USER,
-    password : process.env.MYSQL_DATABASE_PASSWORD,
-    database : process.env.MYSQL_DATABASE_TABLE
+    host     : process.env.MYSQL_HOST,
+    user     : process.env.MYSQL_USER,
+    password : process.env.MYSQL_PASSWORD,
+    database : process.env.MYSQL_TABLE
 })
-connection.connect(() => {
-    console.log("Connected");
+
+connection.connect(function(err) {
+    if (err) {
+        console.error('error connecting: ' + err.sqlMessage);
+        return;
+    }
+
+    console.log('connected as id ' + connection.threadId);
 });
 
 let domain_id;
