@@ -6,12 +6,6 @@ import {
 } from "../controller/script_tag_controller";
 const router = new Router({ prefix: "/script_tags" });
 
-// Route for test
-router.post("/test", (ctx) => {
-  console.log(ctx.request.body);
-  ctx.body = "Body " + ctx.request.body;
-});
-
 // Route for get all script tags
 router.get("/", async (ctx) => {
   const query = ctx.query;

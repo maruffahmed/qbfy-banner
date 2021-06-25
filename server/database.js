@@ -4,6 +4,15 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+console.log(
+    `Host info :\n
+    Host: ${process.env.MYSQL_HOST}\n
+    Username: ${process.env.MYSQL_USER}\n
+    Password: ${process.env.MYSQL_PASSWORD}\n
+    Database: ${process.env.MYSQL_TABLE}\n
+    Port: ${process.env.MYSQL_PORT}
+    `)
+
 const connection = mysql.createConnection({
     host     : process.env.MYSQL_HOST,
     user     : process.env.MYSQL_USER,
@@ -22,7 +31,6 @@ connection.connect(function(err) {
 
 let domain_id;
 const storeCallBack = async (session) => {
-    console.log(session);
     try {
         let data = session;
         data.onlineAccessInfo = JSON.stringify(session.onlineAccessInfo);

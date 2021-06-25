@@ -20,7 +20,6 @@ export async function createScriptTag(client) {
       data,
       type: DataType.JSON,
     });
-    console.log("Result using shopify client ", result.body);
     return result.body;
   } catch (error) {
     return error;
@@ -36,10 +35,8 @@ export async function getScriptTags(client, query) {
       path: "script_tags",
       query,
     });
-    console.log("All script tags ", result.body);
     return result.body;
   } catch (error) {
-    console.log("Something wrong to get script tags ", error.message);
     return error;
   }
 }
@@ -54,7 +51,6 @@ export async function deleteScriptTags(client, scriptId) {
     });
     return result.body;
   } catch (error) {
-    console.log("Something wrong to delete script tag ", error.message);
     return error;
   }
 }
