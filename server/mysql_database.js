@@ -29,6 +29,33 @@ connection.connect(function(err) {
     console.log('connected as id ' + connection.threadId);
 });
 
+// let systemMessage = (message) => {
+//     console.log("***********");
+//     console.log(message);
+//     console.log("***********");
+// }
+
+// let connection;
+
+// let dbConnection = () => {
+//     connection = mysql.createConnection(dbConfig);
+//     connection.connect((err) => {
+//         if(err){
+//             setTimeout(dbConnection, 2000);
+//         }
+//     });
+
+//     connection.on('error', (err) => {
+//         systemMessage("Error : " + err);
+//         if(err.code == 'PROTOCOL_CONNECTION_LOST'){
+//             dbConnection();
+//         }else{
+//             throw err;
+//         }
+//     })
+// }
+// dbConnection();
+
 let domain_id;
 const storeCallBack = async (session) => {
     try {

@@ -6,6 +6,7 @@ import Shopify, { ApiVersion } from "@shopify/shopify-api";
 import Koa from "koa";
 import next from "next";
 import Router from "koa-router";
+import mongoose from 'mongoose'
 
 import routes from "./router/index";
 import { updateTheme } from "./updateTheme/updateTheme";
@@ -13,7 +14,7 @@ import {
   storeCallBack,
   loadCallBack,
   deleteCallBack
-} from './database';
+} from './controller/customSessionStorage_controller';
 
 dotenv.config();
 const port = parseInt(process.env.PORT, 10) || 8081;
@@ -48,6 +49,17 @@ const ACTIVE_SHOPIFY_SHOPS = {};
 app.prepare().then(async () => {
   const server = new Koa();
   const router = new Router();
+
+  // MongoDB connections
+  console.log(process.env.MONGO_URL);
+  mongoose.connect(process.env.MONGO_URL,{useNewUrlParser : true, useUnifiedTopology : true})
+  .then(res => server.listen(port, () => {
+      console.log(`MongoDB connected`);
+      console.log(`> Ready on http://localhost:${port}`);
+    })
+  )
+  .catch(error => console.log(error.message))
+
   server.keys = [Shopify.Context.API_SECRET_KEY];
   server.use(
     createShopifyAuth({
@@ -118,6 +130,7 @@ app.prepare().then(async () => {
   async function injectSession(ctx, next) {
     try {
       const session = await Shopify.Utils.loadCurrentSession(ctx.req, ctx.res);
+      console.log(session);
       if (session?.shop && session?.scope) {
         const shopifyClient = new Shopify.Clients.Rest(
           session.shop,
@@ -141,7 +154,7 @@ app.prepare().then(async () => {
 
   server.use(router.allowedMethods());
   server.use(router.routes());
-  server.listen(port, () => {
-    console.log(`> Ready on http://localhost:${port}`);
-  });
+  // server.listen(port, () => {
+  //   console.log(`> Ready on http://localhost:${port}`);
+  // });
 });
