@@ -53,6 +53,7 @@ function MyProvider(props) {
 class MyApp extends App {
   render() {
     const { Component, pageProps, host } = this.props;
+    console.log(API_KEY);
     return (
       <AppProvider i18n={translations}>
         <Provider

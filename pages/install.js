@@ -69,7 +69,7 @@ function install(props) {
   React.useEffect(() => {
     dispatch(installLoading());
     axios
-      .get(`https://qbfy-banner.herokuapp.com/script_tags`)
+      .get(`https://qbfy.herokuapp.com/script_tags`)
       .then((res) => {
         if (res.data.script_tags.length > 0) {
           dispatch(installSuccess(res.data.script_tags[0]));
@@ -86,7 +86,7 @@ function install(props) {
     dispatch(installLoading());
     if (!bannerScript.isInstall) {
       try {
-        const result = await axios.post(`https://qbfy-banner.herokuapp.com/script_tags`);
+        const result = await axios.post(`https://qbfy.herokuapp.com/script_tags`);
         if (result.status === 200) {
           dispatch(installSuccess(result.data.script_tag));
         } else {
@@ -98,7 +98,7 @@ function install(props) {
     } else {
       try {
         const result = await axios.delete(
-          `https://qbfy-banner.herokuapp.com/script_tags/${bannerScript.installedScript.id}`
+          `https://qbfy.herokuapp.com/script_tags/${bannerScript.installedScript.id}`
         );
         if (result.data.error) {
           dispatch(uninstallFail(result.data.error));
