@@ -13,7 +13,7 @@ export async function createScriptTag(ctx) {
     const data = {
       script_tag: {
         event: "onload",
-        src: "https://facebook.com",
+        src: "https://amazon.com/",
       },
     };
     const result = await myClient.post({
