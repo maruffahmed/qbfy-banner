@@ -132,7 +132,7 @@ function install(props) {
 
   // Handle Delete script tag logic
   const [handleUninstall, { loading : deleteLoading }] = useMutation(DELETE_SCRIPT_TAG,{
-    variables : {id : bannerScript.installedScript.id},
+    variables : {id : bannerScript.installedScript?.id},
     onCompleted : data => {
       console.log("Delete script tag",data);
       let deleteScriptTagData = data?.scriptTagDelete.deletedScriptTagId;
