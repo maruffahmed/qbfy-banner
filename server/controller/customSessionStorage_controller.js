@@ -24,7 +24,7 @@ const storeCallBack = async (session) => {
     })
     try {
         let existShop = await Shop.findOne({shop : session.shop});
-        console.log("Find this from StoreCallBack ", existShop);
+        // console.log("Find this from StoreCallBack ", existShop);
         if(existShop){
             await Shop.findByIdAndUpdate(existShop.id,{
                 session_id : data.id,
@@ -49,11 +49,11 @@ const storeCallBack = async (session) => {
 }
 
 const loadCallBack = async (id) =>{
-    console.log("LoadCallBack ", id );
+    // console.log("LoadCallBack ", id );
     try {
         let session = new Session(id);
         let result = await Shop.findOne( {$or : [{session_id : id}, {domain_id : id}]});
-        console.log("Load call back result", result);
+        // console.log("Load call back result", result);
         session.shop = result.shop;
         session.state = result.state;
         session.scope = result.scope;
