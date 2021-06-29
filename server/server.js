@@ -119,18 +119,31 @@ app.prepare().then(async () => {
     }
   });
 
+  async function graphHelper(ctx){
+    try {
+      await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
+    } catch (error) {
+      console.log("GraphQL error", error);
+      if(error === "jwt not active" ) graphHelper(ctx);
+      else return null;
+    }
+  }
   router.post(
     "/graphql",
     verifyRequest({ returnHeader: true }),
     async (ctx, next) => {
-      await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
+      const sessionDecode = Shopify.Utils.decodeSessionToken(ctx.headers.authorization.replace('Bearer ',''));
+      console.log("Decode session token", sessionDecode);
+      await graphHelper(ctx);
+      // const grapResult = await Shopify.Utils.graphqlProxy(ctx.req, ctx.res);
+      // console.log(grapResult);
     }
   );
 
   async function injectSession(ctx, next) {
     try {
       const session = await Shopify.Utils.loadCurrentSession(ctx.req, ctx.res);
-      console.log(session);
+      console.log("Load current session ", session);
       if (session?.shop && session?.scope) {
         const shopifyClient = new Shopify.Clients.Rest(
           session.shop,
